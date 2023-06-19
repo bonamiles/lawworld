@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://smtpjs.com/v3/smtp.js"></script>
+
+    <script type="text/javascript">
+        var x=0;
+        var y=-1;
+        var z=0;
+        var submeet;
+        var answers=[];
+        var options=[];
+        var question=[];
+        var optionId=["null","null","null","null","null"];
+
+        question[0]= "What do you do?";
+        question[1]= "Do you already own a Business or are you aspiring to own one?";
+        question[2]= "What challenges are you facing in your Business?";
+        question[3]= "Where do you see your Business in the next two years?";
+
+        options[0]=["Business Owner","Entrepreneur","Worker","Civil Servant"];
+        options[1]=["Yes I do", "No I don't", "I do not have yet, but I want to","I am an Employee"];
+        options[2]=["Competition","Capital","Compliance","No Challenges"];
+        options[3]=["I plan to make it bigger","I plan to expand my business","I plan to have more employees","I plan to grow beyond the Nigerian Market"];
+
+        function checkEvery(x)
+        {
+            switch(x)
+            {
+                case 1:
+                    if(document.getElementById('checkmines1').checked){
+                    document.getElementById('checkmines2').checked=document.getElementById('checkmines3').checked=document.getElementById('checkmines4').checked= false;
+                    answers[y]= document.getElementById('label1').innerText;
+                    console.log(answers[y])
+                    optionId[y]="checkmines1";
+                    console.log(y);
+                    console.log(optionId[y]);
+                    } else{
+                        answers[y]= null;
+                        optionId[y]="null";
+                    }
+                        
+                    break;
+                case 2:
+                    if(document.getElementById('checkmines2').checked){
+                    document.getElementById('checkmines1').checked=document.getElementById('checkmines3').checked=document.getElementById('checkmines4').checked= false;
+                    answers[y]= document.getElementById('label2').innerText;
+                    optionId[y]="checkmines2";
+                    } else{
+                        answers[y]= null;
+                        optionId[y]="null";
+                }
+                    break;          
+                case 3:
+                    if(document.getElementById('checkmines3').checked){
+                    document.getElementById('checkmines2').checked=document.getElementById('checkmines1').checked=document.getElementById('checkmines4').checked= false;
+                    answers[y]= document.getElementById('label3').innerText;
+                    optionId[y]="checkmines3";
+                    } else{
+                        answers[y]= null;
+                        optionId[y]="null";}
+                    break;
+                case 4:
+                    if(document.getElementById('checkmines4').checked){
+                    document.getElementById('checkmines2').checked=document.getElementById('checkmines3').checked=document.getElementById('checkmines1').checked= false;
+                    answers[y]= document.getElementById('label4').innerText;
+                    optionId[y]="checkmines4";
+                    } else{
+                        answers[y]= null;
+                        optionId[y]="null";}
+                    break;
+
+            }
+        }
+
+        function Questions(submeet)
+        {
+            document.getElementById('checkmines2').checked=document.getElementById('checkmines3').checked=document.getElementById('checkmines4').checked= document.getElementById('checkmines1').checked= false;
+            if(submeet == "prev")
+                    {
+                        if(y==0)
+                        {
+                            document.getElementById('previous').disabled = true;
+                            document.getElementById('OptionQuestion').style.display= "none";
+                            document.getElementById("Personal").style.display= "block";
+                        }
+                        document.getElementById("next").innerHTML="Next";
+                        y--;
+                        console.log(optionId[y]);
+                        document.getElementById(optionId[y]).checked = true
+                        document.getElementById("Question").innerHTML=question[y];
+                    }
+                    else if(submeet == "next" && y<3)
+                    {
+                        document.getElementById('OptionQuestion').style.display= "block";
+                        document.getElementById('Personal').style.display= "none";
+                        console.log("next");
+                        if(y>1)
+                        {
+                            document.getElementById("next").innerHTML="Submit";
+                        }
+                        document.getElementById('previous').disabled = false;
+                        y++;
+                        console.log(optionId[y]);
+                        document.getElementById(optionId[y]).checked = true;
+                        document.getElementById("Question").innerHTML=question[y];
+                        var fName = document.getElementById('firstName').value;
+                        var sName = document.getElementById('surName').value;
+                        var PhoneNo = document.getElementById('PhoneNo').value;
+                        var emailAdd = document.getElementById('emailAdd').value;
+                        var companyName = document.getElementById('companyName').value;
+                        var maily = "Name :"+fName+" \nSurname: "+sName+" \nPhone Number: "+PhoneNo+" \nEmail Address: "+emailAdd+" \nCompany Name: "+companyName+"   \nAnswers: ";
+                        
+                        console.log(maily);
+                    }
+                    else
+                    {
+                        document.getElementById('next').disabled = true;
+                        document.getElementById('previous').disabled = true;
+                        document.getElementById(optionId[y]).checked= true;
+                        console.log(answers)
+                        var fName = document.getElementById('firstName').value;
+                        var sName = document.getElementById('surName').value;
+                        var PhoneNo = document.getElementById('PhoneNo').value;
+                        var emailAdd = document.getElementById('emailAdd').value;
+                        var companyName = document.getElementById('companyName').value;
+                        var maily = "Name :"+fName+" \nSurname: "+sName+" \nPhone Number: "+PhoneNo+" \nEmail Address: "+emailAdd+" \nCompany Name: "+companyName+"   \nAnswers :\nQuestion 1: What do you do?\nAnswer:"+answers[0]+"\nQuestion 2: Do you already own a Business or are you aspiring to own one?\nAnswer: "+answers[1]+"\nQuestion 3: What challenges are you facing in your business?\nAnswer: "+answers[2]+"\nQuestion 4: Where do you see your business in the next 2 years? \nAnswer: "+answers[3]+"\nThank You";
+                    console.log(maily);
+
+                    Email.send({
+                    Host : "smtp.elasticemail.com",
+                    Username : "lawworldcorporateservices@gmail.com",
+                    Password : "A566A95667BE70005F078CFCCB2853912AAF",
+                    To : 'lawworldcorporateservices@gmail.com',
+                    From : "lawworldcorporateservices@gmail.com",
+                    Subject : "Business Details",
+                    Body : maily
+                }).then();
+
+                    }
+                    document.getElementById('label1').innerHTML= options[y][0];
+                    document.getElementById('label2').innerHTML= options[y][1];
+                    document.getElementById('label3').innerHTML= options[y][2];
+                    document.getElementById('label4').innerHTML= options[y][3];
+
+        }
+    </script>
+    </head>
+
+    <body>
+        <div style="text-align: center;">
+                    <img src="ico.png" style="width: 40%; margin-top: 0;"/>
+        </div>
+        <div class="container">
+            <div id="Personal" class="container">
+                <span class="badge bg-primary">Personal Information</span>
+                <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="firstName" placeholder="John">
+                            <label for="firstName">  First Name</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="surName" placeholder="Snow">
+                    <label for="surName">Surname</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="dropdown" class="form-control" id="PhoneNo" placeholder="Phone Number">
+                    <label for="PhoneNo">Phone Number</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="emailAdd" placeholder="email@example.com">
+                    <label for="emailAdd">Email</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="companyName" placeholder="Company Name">
+                    <label for="companyName">Company Name</label>
+                </div>
+            </div>
+
+            <div id="OptionQuestion" style="display: none;">
+                <label id="Question">What do you do?</label> <br/>
+                <input id="checkmines1" type="checkbox" value= "Business Owner" onclick="checkEvery(1)"> <label id="label1" for="checkmines1">Business Owner</label>  <br/>
+                <input id="checkmines2" type="checkbox"  value= "Entrepreneur" onclick="checkEvery(2)"> <label id="label2" for="checkmines2">Entrepreneur</label><br/>
+                <input id="checkmines3" type="checkbox"  value= "Worker" onclick="checkEvery(3)"> <label id="label3" for="checkmines3">Worker</label><br/>
+                <input id="checkmines4" type="checkbox" value="Civil Servant" onclick="checkEvery(4)"> <label id="label4" for="checkmines4">Civil Servant</label><br/>
+                <input id="null" type="checkbox" style="display: none;">
+            </div>
+
+            <div class="row" id="Butons">
+                <div class="col">
+                    <button  class="btn btn-primary" id="previous" onclick="Questions('prev')" disabled="true" >Previous</button>
+                </div>
+                <div class="col d-md-flex justify-content-md-end">
+                    <button type="submit" class="btn btn-primary" id="next" onclick="Questions('next')">Next</button>
+                </div>
+              </div>            
+        </div>
+        
+    </body>
+</html>
